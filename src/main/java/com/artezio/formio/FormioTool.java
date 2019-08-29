@@ -1,7 +1,6 @@
-package com.artezio.formio.ui;
+package com.artezio.formio;
 
-import com.artezio.formio.FormDownloader;
-import com.artezio.formio.FormUploader;
+import com.artezio.formio.ui.MainWindow;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
