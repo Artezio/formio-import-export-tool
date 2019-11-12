@@ -38,11 +38,12 @@ public class FormioClient {
         }
     }
 
-    public String getForms(String apiUrl, String token, String tags) {
+    public String getForms(String apiUrl, String token, String tags, String... queryParams) {
         HttpURLConnection connection = null;
 
         try {
-            String targetUrl = apiUrl + "/form?type=form&limit=10000000&skip=0";
+            String params = String.join("&", queryParams);
+            String targetUrl = apiUrl + "/form?type=form&limit=10000000&skip=0&" + params;
             if (tags != null && !tags.isEmpty()) {
                 targetUrl += "&tags__in=" + tags;
             }
@@ -65,11 +66,12 @@ public class FormioClient {
         }
     }
 
-    public String getForm(String apiUrl, String formId, String token) {
+    public String getForm(String apiUrl, String formId, String token, String... queryParams) {
         HttpURLConnection connection = null;
 
         try {
-            String targetUrl = apiUrl + "/form/" + formId;
+            String params = String.join("&", queryParams);
+            String targetUrl = apiUrl + "/form/" + formId + "?" + params;
             URL url = new URL(targetUrl);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -211,7 +213,7 @@ public class FormioClient {
         return body.toString();
     }
 
-    public void deleteForm(String apiUrl, String formPath, String token) throws IOException {
+    public void deleteForm(String apiUrl, String formPath, String token) {
         HttpURLConnection connection = null;
 
         try {
@@ -223,7 +225,7 @@ public class FormioClient {
             connection.setDoOutput(false);
             connection.getInputStream().close();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error during deleting form", e);
         } finally {
             if (connection != null) {
                 connection.disconnect();
