@@ -36,7 +36,7 @@ public class FormDownloader {
         try {
             System.out.format("Creating directory '%s/%s' for form with path '%s'%n", targetDirectory, path, formPath);
             Files.createDirectories(Paths.get(targetDirectory + "/" + path));
-            Files.write(Paths.get(targetDirectory + "/" + formPath), form.toString().getBytes(Charset.forName("UTF-8")));
+            Files.write(Paths.get(targetDirectory + "/" + formPath + ".json"), form.toString().getBytes(Charset.forName("UTF-8")));
         } catch (IOException e1) {
             e1.printStackTrace();
         }
