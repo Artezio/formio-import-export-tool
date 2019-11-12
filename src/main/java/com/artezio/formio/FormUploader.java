@@ -24,7 +24,13 @@ public class FormUploader {
     public void upload(String apiUrl, String username, String password, String sourceDirectory) throws IOException {
         String token = formioClient.getToken(apiUrl, username, password);
         Map<String, String> formByFormIds = collectFormsInDirectoryTree(sourceDirectory);
-        formByFormIds.keySet().forEach(key -> formioClient.deleteForm(apiUrl, key, token));
+        formByFormIds.keySet().forEach(key -> {
+            try {
+                formioClient.deleteForm(apiUrl, key, token);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         uploadForms(apiUrl, new ArrayList<>(formByFormIds.keySet()), formByFormIds, token);
     }
 

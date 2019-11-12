@@ -146,7 +146,7 @@ public class FormioClient {
         }
     }
 
-    public void uploadForms(String apiUrl, JSONArray forms, String token) throws IOException {
+    public void uploadForms(String apiUrl, JSONArray forms, String token) throws Exception {
         for (int index = 0; index < forms.length(); index++) {
             JSONObject form = forms.getJSONObject(index);
             deleteForm(apiUrl, form.getString("path"), token);
@@ -213,7 +213,7 @@ public class FormioClient {
         return body.toString();
     }
 
-    public void deleteForm(String apiUrl, String formPath, String token) {
+    public void deleteForm(String apiUrl, String formPath, String token) throws IOException {
         HttpURLConnection connection = null;
 
         try {
@@ -224,8 +224,6 @@ public class FormioClient {
             connection.setUseCaches(false);
             connection.setDoOutput(false);
             connection.getInputStream().close();
-        } catch (Exception e) {
-            throw new RuntimeException("Error during deleting form", e);
         } finally {
             if (connection != null) {
                 connection.disconnect();

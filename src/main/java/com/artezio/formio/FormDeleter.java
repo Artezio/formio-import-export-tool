@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterator;
@@ -25,7 +26,13 @@ public class FormDeleter {
         if (formPathList.isEmpty()) {
             formPathList = getFormPaths(apiUrl, token, tags);
         }
-        formPathList.forEach(formPath -> formioClient.deleteForm(apiUrl, formPath, token));
+        formPathList.forEach(formPath -> {
+            try {
+                formioClient.deleteForm(apiUrl, formPath, token);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private List<String> getFormPaths(String apiUrl, String token, String tags) {
