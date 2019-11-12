@@ -25,6 +25,7 @@ public class FormUploader {
         String token = formioClient.getToken(apiUrl, username, password);
         Map<String, String> formByFormIds = collectFormsInDirectoryTree(sourceDirectory);
         formByFormIds.keySet().forEach(key -> {
+            key = key.endsWith(".json") ? key.replace(".json", "") : key;
             try {
                 formioClient.deleteForm(apiUrl, key, token);
             } catch (IOException e) {
